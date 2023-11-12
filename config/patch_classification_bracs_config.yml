@@ -1,0 +1,47 @@
+# dataset
+dataset: 'bracs'
+data_dir: '/mnt/Xsky/bracs/BRACS_RoI/latest_version'
+subdir: ['selected_train1', 'test']
+n_worker: 8
+n_class: 3
+pin_memory: True
+bs: 128
+class_weight: [1,10,10]
+train_transforms: ["resize", "flip", "rotate", "colorJitter", "totensor", "normalize"]
+val_transforms: ["centercrop", "resize", "totensor", "normalize"]
+
+# model
+#backbone: 'ViT-B/16'
+backbone: 'Resnet50'
+#pretrain: 'medical_ssl'
+pretrain: 'natural_supervised'
+finetune: 'lp'
+
+
+# optim
+optim: 'adam'
+wd: 0.0005
+lr: 0.001
+min_lr: 0
+augment_epoch: 1
+warmup_epoch: 5
+start_epoch: 0
+train_epoch: 50
+
+# other setting
+load_head_checkpoints: False
+
+heatmap_arguments:
+  # downsample at which to visualize heatmap (-1 refers to downsample closest to 32x downsample)
+  vis_level: -1
+  # transparency for overlaying heatmap on background (0: background only, 1: foreground only)
+  alpha: 0.4
+  # whether to use a blank canvas instead of original slide
+  blank_canvas: false
+  # whether to use gaussian blur for further smoothing
+  blur: True
+  # whether to binarize attention scores
+  binarize: false
+  # factor for downscaling the heatmap before final dispaly
+  custom_downsample: 1
+  cmap: jet

@@ -1,0 +1,25 @@
+#opt
+dataset: huaxi
+train_epoch: 50           # number of epochs
+warmup_epoch: 0    # number of warm-up epochs
+lr: 0.0001            # learning rate
+wd: 0.00001               # weight decay
+min_lr: 0
+
+#dset
+B: 1
+n_class: 2                           # number of classes
+data_dir: '/mnt/Xsky/zyl/dataset/huaxi_ov/roi_feats_x16'       # directory of dataset
+n_shot: -1
+n_worker: 8                          # number of workers
+pin_memory: False                     # use pin memory in dataloader
+
+#encoder
+backbone: 'ViT-B/16'
+pretrain: 'medical_ssl'
+
+#aggr
+D_inner: 128       # intermediate layer dimension in MLP
+D_feat: 384
+
+

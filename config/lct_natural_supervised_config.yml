@@ -1,0 +1,20 @@
+#opt
+train_epoch: 100           # number of epochs
+warmup_epoch: 0    # number of warm-up epochs
+wd: 0.00001               # weight decay
+lr: 0.0002
+min_lr: 0
+
+#dset
+dataset: lct
+B: 1
+n_class: 4                            # number of classes
+data_dir: '/mnt/Xsky/zyl/dataset/lct/roi_feats3'       # directory of dataset
+n_worker: 8                          # number of workers
+pin_memory: False                     # use pin memory in dataloader
+n_shot: -1
+
+# pretrained
+pretrain: 'natural_supervised'
+D_feat: 512
+D_inner: 256
