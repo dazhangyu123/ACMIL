@@ -17,13 +17,21 @@ For your own dataset, you can modify and run [Step1_create_patches_fp.py](Step1_
 Note that we recommend extracting features using SSL pretrained method. Our code using the checkpoints provided by [Benchmarking Self-Supervised Learning on Diverse Pathology Datasets](https://openaccess.thecvf.com/content/CVPR2023/html/Kang_Benchmarking_Self-Supervised_Learning_on_Diverse_Pathology_Datasets_CVPR_2023_paper.html)
 
 # Training
-For the ABMIL (baseline), you should set n_token=1 n_masked_patch=0 mask_drop=0
+For the ABMIL (baseline), you can run [Step3_WSI_classification_ACMIL.py](Step3_WSI_classification_ACMIL.py) and set n_token=1 n_masked_patch=0 mask_drop=0
 ```shell
-CUDA_VISIBLE_DEVICES=2 python Step3_WSI_classification.py --seed 4 --wandb_mode online --arch ga --n_token 1 --n_masked_patch 0 --mask_drop 0 --config config/bracs_natural_supervised_config.yml
+CUDA_VISIBLE_DEVICES=2 python Step3_WSI_classification_ACMIL.py --seed 4 --wandb_mode online --arch ga --n_token 1 --n_masked_patch 0 --mask_drop 0 --config config/bracs_natural_supervised_config.yml
 ```
-For our ACMIL, you should set n_token=5 n_masked_patch=10 mask_drop=0.6
+For our ACMIL, you can run [Step3_WSI_classification_ACMIL.py](Step3_WSI_classification_ACMIL.py) and set n_token=5 n_masked_patch=10 mask_drop=0.6
 ```shell
-CUDA_VISIBLE_DEVICES=2 python Step3_WSI_classification.py --seed 4 --wandb_mode online --arch ga --n_token 5 --n_masked_patch 10 --mask_drop 0.6 --config config/bracs_natural_supervised_config.yml
+CUDA_VISIBLE_DEVICES=2 python Step3_WSI_classification_ACMIL.py --seed 4 --wandb_mode online --arch ga --n_token 5 --n_masked_patch 10 --mask_drop 0.6 --config config/bracs_natural_supervised_config.yml
+```
+For CLAM, DAMIL, and TransMIL, you run [Step3_WSI_classification.py](Step3_WSI_classification.py) 
+```shell
+CUDA_VISIBLE_DEVICES=2 python Step3_WSI_classification.py --seed 4 --wandb_mode online --arch clam_sb/clam_mb/transmil/dsmil --config config/bracs_natural_supervised_config.yml
+```
+For DTFD-MIL, you run [Step3_WSI_classification_DTFD.py](Step3_WSI_classification_DTFD.py) 
+```shell
+CUDA_VISIBLE_DEVICES=2 python Step3_WSI_classification_DTFD.py --seed 4 --wandb_mode online --config config/bracs_natural_supervised_config.yml
 ```
 
 
