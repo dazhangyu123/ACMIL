@@ -184,7 +184,7 @@ def build_model(cfg):
     if cfg.pretrain == 'natural_supervised' and cfg.backbone == 'ViT-B/16':
         encoder = timm.create_model('vit_base_patch16_224', pretrained=True)
         encoder.head = nn.Identity()
-    elif cfg.pretrain == 'natural_ssl' and cfg.backbone == 'ViT-B/16':
+    elif cfg.pretrain == 'natural_ssl' and cfg.backbone == 'ViT-S/16':
         encoder = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
     elif cfg.pretrain == 'natural_supervised' and cfg.backbone == 'Resnet50':
         encoder = timm.create_model('resnet50', pretrained=True)
@@ -199,7 +199,7 @@ def build_model(cfg):
         encoder.embed_dim = encoder.inplanes
     elif cfg.pretrain == 'medical_ssl' and cfg.backbone == 'Resnet50':
         encoder = resnet50(pretrained=True, progress=False, key="BT")
-    elif cfg.pretrain == 'medical_ssl' and cfg.backbone == 'ViT-B/16':
+    elif cfg.pretrain == 'medical_ssl' and cfg.backbone == 'ViT-S/16':
         encoder = vit_small(pretrained=True, progress=False, key="DINO_p16", patch_size=16)
     elif cfg.pretrain == 'tailored_sl':
         encoder = vit_small(pretrained=True, progress=False, key="DINO_p16", patch_size=16)

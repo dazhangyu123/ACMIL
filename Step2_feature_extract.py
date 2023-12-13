@@ -19,16 +19,15 @@ from utils.utils import Struct
 device = 'cuda:{}'.format(2)
 
 parser = argparse.ArgumentParser(description='Extract Features of Patches with TopK confidence')
-parser.add_argument('--data_h5_dir', type=str, default='/mnt/Xsky/zyl/dataset/bracs/coords_anno_x10')
+parser.add_argument('--data_h5_dir', type=str, default='/mnt/Xsky/zyl/dataset/bracs/coords_anno_x20')
 parser.add_argument('--data_slide_dir', type=str, default='/mnt/Xsky/bracs/BRACS_WSI')
 parser.add_argument('--slide_ext', type=str, default='.svs')
 parser.add_argument('--csv_path', type=str, default='dataset_csv/bracs.csv')
-parser.add_argument('--feat_dir', type=str, default='/mnt/Xsky/zyl/dataset/bracs/roi_feats_x10')
 parser.add_argument('--batch_size', type=int, default=256)
 parser.add_argument('--no_auto_skip', default=False, action='store_true')
 parser.add_argument('--custom_downsample', type=int, default=1)
 parser.add_argument('--target_patch_size', type=int, default=224)
-parser.add_argument('--config', dest='config', default='config/patch_classification_bracs_config.yml',
+parser.add_argument('--config', dest='config', default='config/bracs_medical_ssl_config.yml',
                     help='settings of Tip-Adapter in yaml format')
 args = parser.parse_args()
 
@@ -127,7 +126,7 @@ if __name__ == '__main__':
     cfg = Struct(**cfg)
     print("\nRunning configs.")
     print(cfg, "\n")
-    os.makedirs(args.feat_dir, exist_ok=True)
+    os.makedirs(cfg.data_dir, exist_ok=True)
 
     print('initializing dataset')
     csv_path = args.csv_path
@@ -143,7 +142,7 @@ if __name__ == '__main__':
     total = len(bags_dataset)
 
 
-    output_path = os.path.join(args.feat_dir, 'patch_feats_pretrain_%s_resnet50.h5'%cfg.pretrain)
+    output_path = os.path.join(cfg.data_dir, 'patch_feats_pretrain_%s.h5'%cfg.pretrain)
     h5file = h5py.File(output_path, "w")
     for bag_candidate_idx in range(total):
         slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
