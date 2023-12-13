@@ -15,6 +15,7 @@ pin_memory: False                     # use pin memory in dataloader
 n_shot: -1
 
 # pretrained
+backbone: 'ViT-S/16'
 pretrain: 'medical_ssl'
 D_feat: 384
 D_inner: 128
