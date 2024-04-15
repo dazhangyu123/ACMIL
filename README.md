@@ -6,15 +6,13 @@ This is the Pytorch implementation of our "[Attention-Challenging  Multiple Inst
 # Dataset Preparation
 We provide a part of the extracted features to reimplement our results. 
 
-Extracted patch features using ImageNet supervised ResNet18 on Camelyon16 at 20× magnification: 
-https://pan.quark.cn/s/dd77e6a476a0
+Extracted patch features using ImageNet supervised ResNet18 on Camelyon16 at 20× magnification: https://pan.quark.cn/s/dd77e6a476a0
 
-Extracted patch features using SSL ViT-S/16 on Camelyon16 at 20× magnification: 
-https://drive.google.com/file/d/1sUxWoYlWooSq2M4fmgjADnDknzS5Fgaj/view?usp=drive_link
+Extracted patch features using SSL ViT-S/16 on Camelyon16 at 20× magnification: https://pan.quark.cn/s/6ea54bfa0e72
 
-Extracted patch features using ImageNet supervised ResNet18 on Bracs at 10× magnification: https://drive.google.com/file/d/1VaaaZF_anH46wQG2NxRAt4ENBQuNoXAq/view?usp=drive_link
+Extracted patch features using ImageNet supervised ResNet18 on Bracs at 10× magnification: https://pan.quark.cn/s/7cf21bbe46a7
 
-Extracted patch features using SSL ViT-S/16 on Bracs at 10× magnification: https://drive.google.com/file/d/14nYcr7SahYI0xSNVTXnp7u2ju3FSdrOU/view?usp=drive_link
+Extracted patch features using SSL ViT-S/16 on Bracs at 10× magnification: https://pan.quark.cn/s/f2f9c93cd5e1
 
 Extracted patch features using ImageNet supervised ResNet18 on Bracs at 20× magnification: https://pan.quark.cn/s/cbe4e1d0e68c
 
