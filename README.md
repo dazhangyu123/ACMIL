@@ -2,21 +2,41 @@
 
 This is the Pytorch implementation of our "[Attention-Challenging  Multiple Instance Learning for Whole Slide Image Classification](https://arxiv.org/pdf/2311.07125.pdf)". This code is based on the [**CLAM**](https://github.com/mahmoodlab/CLAM/).
 
+# News
+**[2024.7]** We provide a stronger feature encoder for WSI classification, pre-trained by Vision-Language alignment on PathGen-1.6M. For more details, please refer to our  paper [PathGen-1.6M: 1.6 Million Pathology Image-text Pairs
+Generation through Multi-agent Collaboration](https://arxiv.org/pdf/2407.00203)
+
+**[2024.7]** We restructured the entire project to improve readability and modified the wandb setup to better manage the experiment logging.
+
 
 # Dataset Preparation
 We provide a part of the extracted features to reimplement our results. 
 
-Extracted patch features using ImageNet supervised ResNet18 on Camelyon16 at 20× magnification: https://pan.quark.cn/s/dd77e6a476a0
 
-Extracted patch features using SSL ViT-S/16 on Camelyon16 at 20× magnification: https://pan.quark.cn/s/6ea54bfa0e72
+## Camelyon16 Dataset (20× magnification)
 
-Extracted patch features using ImageNet supervised ResNet18 on Bracs at 10× magnification: https://pan.quark.cn/s/7cf21bbe46a7
+| Model | Download Link |
+|-------|---------------|
+| ImageNet supervised ResNet18 | [Download](https://pan.quark.cn/s/dd77e6a476a0) |
+| SSL ViT-S/16 | [Download](https://pan.quark.cn/s/6ea54bfa0e72) |
+| PathGen-CLIP ViT-L (334 × 334 pixels) | [Download](https://pan.quark.cn/s/62fe3dc65291) |
 
-Extracted patch features using SSL ViT-S/16 on Bracs at 10× magnification: https://pan.quark.cn/s/f2f9c93cd5e1
+## Bracs Dataset
 
-Extracted patch features using ImageNet supervised ResNet18 on Bracs at 20× magnification: https://pan.quark.cn/s/cbe4e1d0e68c
+### 10× magnification
 
-Extracted patch features using SSL ViT-S/16 on Bracs at 20× magnification: https://pan.quark.cn/s/3c8c1ffce517
+| Model | Download Link |
+|-------|---------------|
+| ImageNet supervised ResNet18 | [Download](https://pan.quark.cn/s/7cf21bbe46a7) |
+| SSL ViT-S/16 | [Download](https://pan.quark.cn/s/f2f9c93cd5e1) |
+
+### 20× magnification
+
+| Model | Download Link |
+|-------|---------------|
+| ImageNet supervised ResNet18 | [Download](https://pan.quark.cn/s/cbe4e1d0e68c) |
+| SSL ViT-S/16 | [Download](https://pan.quark.cn/s/3c8c1ffce517) |
+| PathGen-CLIP ViT-L (334 × 334 pixels) | [Download](https://pan.quark.cn/s/62fe3dc65291) |
 
 For your own dataset, you can modify and run [Step1_create_patches_fp.py](Step1_create_patches_fp.py) and [Step2_feature_extract.py](Step2_feature_extract.py). More details about this file can refer [**CLAM**](https://github.com/mahmoodlab/CLAM/).
 Note that we recommend extracting features using SSL pretrained method. Our code using the checkpoints provided by [Benchmarking Self-Supervised Learning on Diverse Pathology Datasets](https://openaccess.thecvf.com/content/CVPR2023/html/Kang_Benchmarking_Self-Supervised_Learning_on_Diverse_Pathology_Datasets_CVPR_2023_paper.html)
