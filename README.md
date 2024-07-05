@@ -1,4 +1,4 @@
-# Attention-Challenging  Multiple Instance Learning for Whole Slide Image Classification
+# Attention-Challenging  Multiple Instance Learning for Whole Slide Image Classification (ECCV2024)
 
 This is the Pytorch implementation of our "[Attention-Challenging  Multiple Instance Learning for Whole Slide Image Classification](https://arxiv.org/pdf/2311.07125.pdf)". This code is based on the [**CLAM**](https://github.com/mahmoodlab/CLAM/).
 
