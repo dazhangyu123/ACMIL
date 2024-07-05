@@ -18,12 +18,13 @@ from architecture.ibmil import IBMIL
 from utils.utils import MetricLogger, SmoothedValue, adjust_learning_rate
 from timm.utils import accuracy
 import torchmetrics
+import wandb
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def get_arguments():
     parser = argparse.ArgumentParser('WSI classification training', add_help=False)
-    parser.add_argument('--config', dest='config', default='config/camelyon17_medical_ssl_config.yml',
+    parser.add_argument('--config', dest='config', default='config/lct_config.yml',
                         help='settings of Tip-Adapter in yaml format')
     parser.add_argument(
         "--eval-only", action="store_true", help="evaluation only"
@@ -33,8 +34,16 @@ def get_arguments():
     )
     parser.add_argument('--wandb_mode', default='disabled', choices=['offline', 'online', 'disabled'],
                         help='the model of wandb')
-    parser.add_argument('--c_path', nargs='+', default=None, type=str,help='directory to confounders')
+    parser.add_argument('--c_path', action='store_true', help='directory to confounders')
     parser.add_argument('--c_learn', action='store_true', help='learn confounder or not')
+
+    parser.add_argument('--pretrain', default='path-clip-L-336', choices=['natural_supervised', 'medical_ssl', 'plip', 'path-clip-B-AAAI',
+                                                                      'path-clip-B', 'path-clip-L-336', 'openai-clip-B',
+                                                                      'openai-clip-L-336', 'quilt-net', 'biomedclip'],
+                        help='pretrain methods')
+    parser.add_argument(
+        "--lr", type=float, default=0.0001, help="learning rate"
+    )
     args = parser.parse_args()
     return args
 
@@ -49,14 +58,40 @@ def main():
         conf = Struct(**c)
 
 
-    group_name = 'ds_%s_%s_arch_ibmil' % (conf.dataset, conf.pretrain)
+    if conf.pretrain == 'medical_ssl':
+        conf.D_feat = 384
+        conf.D_inner = 128
+    elif conf.pretrain == 'natural_supervised':
+        conf.D_feat = 512
+        conf.D_inner = 256
+    elif conf.pretrain == 'path-clip-B' or conf.pretrain == 'openai-clip-B' or conf.pretrain == 'plip'\
+            or conf.pretrain == 'quilt-net'  or conf.pretrain == 'path-clip-B-AAAI'  or conf.pretrain == 'biomedclip':
+        conf.D_feat = 512
+        conf.D_inner = 256
+    elif conf.pretrain == 'path-clip-L-336' or conf.pretrain == 'openai-clip-L-336':
+        conf.D_feat = 768
+        conf.D_inner = 384
+
     if conf.c_path:
-        group_name += '_phase2'
-    log_writer = Wandb_Writer(group_name=group_name, mode=args.wandb_mode, name=args.seed)
-    conf.ckpt_dir = log_writer.wandb.dir[:-5] + 'saved_models'
-    if conf.wandb_mode == 'disabled':
-        conf.ckpt_dir = os.path.join(conf.ckpt_dir, group_name, str(args.seed))
-    os.makedirs(conf.ckpt_dir, exist_ok=True)
+        conf.c_path = ['./datasets_deconf/%s/train_bag_cls_agnostic_feats_proto_8_pretrain_%s_seed_%s.npy'%(conf.dataset, conf.pretrain, conf.seed)]
+
+
+    # start a new wandb run to track this script
+    wandb.init(
+        # set the wandb project where this run will be logged
+        project="ADR",
+        # track hyperparameters and run metadata
+        config={'dataset': conf.dataset,
+                'pretrain': conf.pretrain,
+                'loss_form': 'IBMIL-phase1' if not conf.c_path else 'IBMIL-phase2',
+                'seed': conf.seed,},
+        mode=conf.wandb_mode
+    )
+    run_dir = wandb.run.dir  # Get the wandb run directory
+    print('Wandb run dir: %s'%run_dir)
+    ckpt_dir = os.path.join(os.path.dirname(os.path.normpath(run_dir)), 'saved_models')
+    os.makedirs(ckpt_dir, exist_ok=True)  # Create the 'ckpt' directory if it doesn't exist
+
     print("Used config:");
     pprint(vars(conf));
 
@@ -74,13 +109,13 @@ def main():
                              num_workers=conf.n_worker, pin_memory=conf.pin_memory, drop_last=False)
 
     # define network
-    milnet = IBMIL(conf)
-    milnet.to(device)
+    model = IBMIL(conf)
+    model.to(device)
 
     criterion = nn.CrossEntropyLoss()
 
     # define optimizer, lr not important at this point
-    optimizer0 = torch.optim.AdamW(filter(lambda p: p.requires_grad, milnet.parameters()), lr=0.001, weight_decay=conf.wd)
+    optimizer = torch.optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=0.001, weight_decay=conf.wd)
 
     best_state = {'epoch':-1, 'val_acc':0, 'val_auc':0, 'val_f1':0, 'test_acc':0, 'test_auc':0, 'test_f1':0}
     for epoch in range(conf.train_epoch):
@@ -88,21 +123,21 @@ def main():
         #     print(best_state)
         #     sys.exit()
 
-        train_one_epoch(milnet, criterion, train_loader, optimizer0, device, epoch, conf, log_writer)
+        train_one_epoch(model, criterion, train_loader, optimizer, device, epoch, conf)
 
 
-        val_auc, val_acc, val_f1, val_loss = evaluate(milnet, criterion, val_loader, device, conf, 'Val')
-        test_auc, test_acc, test_f1, test_loss = evaluate(milnet, criterion, test_loader, device, conf, 'Test')
+        val_auc, val_acc, val_f1, val_loss = evaluate(model, criterion, val_loader, device, conf, 'Val')
+        test_auc, test_acc, test_f1, test_loss = evaluate(model, criterion, test_loader, device, conf, 'Test')
 
-        if log_writer is not None:
-            log_writer.log('perf/val_acc1', val_acc, commit=False)
-            log_writer.log('perf/val_auc', val_auc, commit=False)
-            log_writer.log('perf/val_f1', val_f1, commit=False)
-            log_writer.log('perf/val_loss', val_loss, commit=False)
-            log_writer.log('perf/test_acc1', test_acc, commit=False)
-            log_writer.log('perf/test_auc', test_auc, commit=False)
-            log_writer.log('perf/test_f1', test_f1, commit=False)
-            log_writer.log('perf/test_loss', test_loss, commit=False)
+        if conf.wandb_mode != 'disabled':
+            wandb.log({'test/test_acc1': test_acc}, commit=False)
+            wandb.log({'test/test_auc': test_auc}, commit=False)
+            wandb.log({'test/test_f1': test_f1}, commit=False)
+            wandb.log({'test/test_loss': test_loss}, commit=False)
+            wandb.log({'val/val_acc1': val_acc}, commit=False)
+            wandb.log({'val/val_auc': val_auc}, commit=False)
+            wandb.log({'val/val_f1': val_f1}, commit=False)
+            wandb.log({'val/val_loss': val_loss}, commit=False)
 
         if val_f1 + val_auc > best_state['val_f1'] + best_state['val_auc']:
             best_state['epoch'] = epoch
@@ -113,23 +148,24 @@ def main():
             best_state['test_acc'] = test_acc
             best_state['test_f1'] = test_f1
             # log_writer.summary('best_acc', val_acc)
-            save_model(
-                conf=conf, model=milnet, optimizer=optimizer0, epoch=epoch, is_best=True)
+            save_model(conf=conf, model=model, optimizer=optimizer, epoch=epoch,
+                       save_path=os.path.join(ckpt_dir, 'checkpoint-best.pth'))
         print('\n')
 
-
-    save_model(
-        conf=conf, model=milnet, optimizer=optimizer0, epoch=epoch, is_last=True)
+    save_model(conf=conf, model=model, optimizer=optimizer, epoch=epoch,
+               save_path=os.path.join(ckpt_dir, 'checkpoint-last.pth'))
     print("Results on best epoch:")
     print(best_state)
 
-def train_one_epoch(milnet, criterion, data_loader, optimizer0, device, epoch, conf, log_writer=None):
+    wandb.finish()
+
+def train_one_epoch(model, criterion, data_loader, optimizer, device, epoch, conf):
     """
     Trains the given network for one epoch according to given criterions (loss functions)
     """
 
     # Set the network to training mode
-    milnet.train()
+    model.train()
 
     metric_logger = MetricLogger(delimiter="  ")
     metric_logger.add_meter('lr', SmoothedValue(window_size=1, fmt='{value:.6f}'))
@@ -145,30 +181,32 @@ def train_one_epoch(milnet, criterion, data_loader, optimizer0, device, epoch, c
         labels = data['label'].to(device)
 
         # # Calculate and set new learning rate
-        adjust_learning_rate(optimizer0, epoch + data_it/len(data_loader), conf)
+        adjust_learning_rate(optimizer, epoch + data_it/len(data_loader), conf)
         # adjust_learning_rate(optimizer1, epoch + data_it/len(data_loader), conf)
 
         # Compute loss
-        preds, feats, attn = milnet(image_patches)
+        preds, feats, attn = model(image_patches)
 
 
 
         loss = criterion(preds, labels)
 
-        optimizer0.zero_grad()
+        optimizer.zero_grad()
         # Backpropagate error and update parameters
         loss.backward()
-        optimizer0.step()
+        optimizer.step()
 
 
-        metric_logger.update(lr=optimizer0.param_groups[0]['lr'])
-        metric_logger.update(sub_loss=loss.item())
+        metric_logger.update(lr=optimizer.param_groups[0]['lr'])
+        metric_logger.update(loss=loss.item())
 
-        if log_writer is not None:
+
+
+        if conf.wandb_mode != 'disabled':
             """ We use epoch_1000x as the x-axis in tensorboard.
             This calibrates different curves when batch size changes.
             """
-            log_writer.log('loss', loss)
+            wandb.log({'loss': loss})
 
 
 

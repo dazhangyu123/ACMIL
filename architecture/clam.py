@@ -93,9 +93,9 @@ class CLAM_SB(nn.Module):
         if dropout:
             fc.append(nn.Dropout(0.25))
         if gate:
-            attention_net = Attn_Net_Gated(L=size[1], D=size[2], dropout=dropout, n_classes=conf.n_token)
+            attention_net = Attn_Net_Gated(L=size[1], D=size[2], dropout=dropout, n_classes=1)
         else:
-            attention_net = Attn_Net(L=size[1], D=size[2], dropout=dropout, n_classes=conf.n_token)
+            attention_net = Attn_Net(L=size[1], D=size[2], dropout=dropout, n_classes=1)
         fc.append(attention_net)
         self.attention_net = nn.Sequential(*fc)
         self.classifiers = nn.Linear(size[1], n_classes)
@@ -107,7 +107,6 @@ class CLAM_SB(nn.Module):
         self.subtyping = False
         if conf.n_class > 2:
             self.subtyping = True
-        self.n_masked_patch = conf.n_masked_patch
 
         initialize_weights(self)
 
@@ -157,24 +156,11 @@ class CLAM_SB(nn.Module):
         instance_loss = self.instance_loss_fn(logits, p_targets)
         return instance_loss, p_preds, p_targets
 
-    def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False, is_train=True):
+    def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False):
         A, h = self.attention_net(h[0])  # NxK
         A = torch.transpose(A, -1, -2)  # KxN
         if attention_only:
             return A
-
-
-        if self.n_masked_patch > 0 and is_train:
-            # Get the indices of the top-k largest values
-            b, q, c = A.shape
-            n_masked_patch = min(self.n_masked_patch, c)
-            _, indices = torch.topk(A, n_masked_patch, dim=-1)
-            indices = indices.reshape(b * q, -1)
-            rand_selected = torch.argsort(torch.rand(*indices.shape), dim=-1)[:,:int(n_masked_patch * 0.5)]
-            masked_indices = indices[torch.arange(indices.shape[0]).unsqueeze(-1), rand_selected]
-            random_mask = torch.ones(b*q, c).to(A.device)
-            random_mask.scatter_(-1, masked_indices, 0)
-            A = A.masked_fill(random_mask.reshape(b, q, -1) == 0, -1e9)
 
 
         A_raw = A

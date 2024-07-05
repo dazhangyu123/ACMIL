@@ -1,0 +1,21 @@
+#opt
+train_epoch: 50           # number of epochs
+B: 1                 # batch size
+warmup_epoch: 0    # number of warm-up epochs
+wd: 0.00001               # weight decay
+lr: 0.0001
+min_lr: 0
+
+#dset
+dataset: camelyon17
+n_class: 4                            # number of classes
+data_dir: '/mnt/Xsky/zyl/dataset/CAMELYON17/roi_feats'       # directory of dataset
+n_worker: 8                          # number of workers
+pin_memory: False                     # use pin memory in dataloader
+n_shot: -1
+
+## pretrained
+#backbone: 'ViT-S/16'
+#pretrain: 'medical_ssl'
+#D_feat: 384
+#D_inner: 128

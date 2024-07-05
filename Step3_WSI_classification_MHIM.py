@@ -19,12 +19,13 @@ from utils.utils import get_cam_1d
 import torchmetrics
 from timm.utils import accuracy
 from copy import deepcopy
+import wandb
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def get_arguments():
     parser = argparse.ArgumentParser('Patch classification training', add_help=False)
-    parser.add_argument('--config', dest='config', default='config/camelyon_medical_ssl_config.yml',
+    parser.add_argument('--config', dest='config', default='config/camelyon_config.yml',
                         help='settings of Tip-Adapter in yaml format')
     parser.add_argument(
         "--eval-only", action="store_true", help="evaluation only"
@@ -34,25 +35,12 @@ def get_arguments():
     )
     parser.add_argument('--wandb_mode', default='disabled', choices=['offline', 'online', 'disabled'],
                         help='the model of wandb')
-    parser.add_argument(
-        "--n_shot", type=int, default=-1, help="number of wsi images"
-    )
-    parser.add_argument(
-        "--n_token", type=int, default=1, help="number of query token"
-    )
-    parser.add_argument(
-        "--w_loss", type=float, default=1.0, help="number of query token"
-    )
-    parser.add_argument(
-        "--n_masked_patch", type=int, default=0, help="whether use adversarial mask"
-    )
     parser.add_argument('--grad_clipping', default=5, type=float)
 
-    parser.add_argument('--model', default='mhim', type=str, help='Model name')
+    parser.add_argument('--model', default='pure', type=str, help='Model name')
 
 
     parser.add_argument('--cls_alpha', default=1.0, type=float, help='Main loss alpha')
-    parser.add_argument('--ckpt_dir', default='./saved_models', type=str, help='dir used for saving checkpoint')
 
     # Model
     # Other models
@@ -93,14 +81,22 @@ def get_arguments():
     # Misc
     parser.add_argument('--log_iter', default=100, type=int, help='Log Frequency')
     parser.add_argument('--amp', action='store_true', help='Automatic Mixed Precision Training')
-    parser.add_argument('--num_workers', default=2, type=int, help='Number of workers in the dataloader')
+    parser.add_argument('--num_workers', default=8, type=int, help='Number of workers in the dataloader')
     parser.add_argument('--no_log', action='store_true', help='Without log')
+
+    parser.add_argument('--pretrain', default='path-clip-L-336', choices=['natural_supervised', 'medical_ssl', 'plip', 'path-clip-B-AAAI',
+                                                                      'path-clip-B', 'path-clip-L-336', 'openai-clip-B',
+                                                                      'openai-clip-L-336', 'quilt-net', 'biomedclip'],
+                        help='pretrain methods')
+    parser.add_argument(
+        "--lr", type=float, default=0.0001, help="learning rate"
+    )
 
     args = parser.parse_args()
     return args
 
 def train_one_epoch(model, model_tea, criterion, data_loader, optimizer,
-                    device, epoch, conf, mm_sche, log_writer=None):
+                    device, epoch, conf, mm_sche):
     """
     Trains the given network for one epoch according to given criterions (loss functions)
     """
@@ -170,12 +166,12 @@ def train_one_epoch(model, model_tea, criterion, data_loader, optimizer,
         metric_logger.update(logit_loss=logit_loss.item())
         metric_logger.update(cls_loss=cls_loss.item())
 
-        if log_writer is not None:
+        if conf.wandb_mode != 'disabled':
             """ We use epoch_1000x as the x-axis in tensorboard.
             This calibrates different curves when batch size changes.
             """
-            log_writer.log('cls_loss', cls_loss)
-            log_writer.log('logit_loss', logit_loss, commit=False)
+            wandb.log({'cls_loss': cls_loss}, commit=False)
+            wandb.log({'logit_loss': logit_loss})
 
 # Disable gradient calculation during evaluation
 @torch.no_grad()
@@ -238,15 +234,39 @@ def main():
         c.update(vars(args))
         conf = Struct(**c)
 
-    group_name = 'ds_%s_%s_arch_%s_%sepochs' % (conf.dataset, conf.pretrain, conf.model, conf.train_epoch)
-    log_writer = Wandb_Writer(group_name=group_name, mode=args.wandb_mode, name=args.seed)
-    conf.ckpt_dir = log_writer.wandb.dir[:-5] + 'saved_models'
-    if conf.wandb_mode == 'disabled':
-        conf.ckpt_dir = os.path.join(conf.ckpt_dir, group_name, str(args.seed))
-    os.makedirs(conf.ckpt_dir, exist_ok=True)
+    if conf.pretrain == 'medical_ssl':
+        conf.D_feat = 384
+        conf.D_inner = 128
+    elif conf.pretrain == 'natural_supervised':
+        conf.D_feat = 512
+        conf.D_inner = 256
+    elif conf.pretrain == 'path-clip-B' or conf.pretrain == 'openai-clip-B' or conf.pretrain == 'plip'\
+            or conf.pretrain == 'quilt-net'  or conf.pretrain == 'path-clip-B-AAAI'  or conf.pretrain == 'biomedclip':
+        conf.D_feat = 512
+        conf.D_inner = 256
+    elif conf.pretrain == 'path-clip-L-336' or conf.pretrain == 'openai-clip-L-336':
+        conf.D_feat = 768
+        conf.D_inner = 384
+
+
+    # start a new wandb run to track this script
+    wandb.init(
+        # set the wandb project where this run will be logged
+        project="ADR",
+        # track hyperparameters and run metadata
+        config={'dataset': conf.dataset,
+                'pretrain': conf.pretrain,
+                'loss_form': conf.model,
+                'seed': conf.seed,},
+        mode=conf.wandb_mode
+    )
+    run_dir = wandb.run.dir  # Get the wandb run directory
+    print('Wandb run dir: %s'%run_dir)
+    ckpt_dir = os.path.join(os.path.dirname(os.path.normpath(run_dir)), 'saved_models')
+    os.makedirs(ckpt_dir, exist_ok=True)  # Create the 'ckpt' directory if it doesn't exist
+
     print("Used config:");
     pprint(vars(conf));
-
     # Prepare dataset
     set_seed(args.seed)
 
@@ -367,7 +387,7 @@ def main():
     best_state = {'epoch':-1, 'val_acc':0, 'val_auc':0, 'val_f1':0, 'test_acc':0, 'test_auc':0, 'test_f1':0}
     for epoch in range(conf.train_epoch):
 
-        train_one_epoch(model, model_tea, criterion, train_loader, optimizer, device, epoch, conf, mm_sche, log_writer)
+        train_one_epoch(model, model_tea, criterion, train_loader, optimizer, device, epoch, conf, mm_sche)
 
         # if args.model == 'mhim':
         #     val_auc, val_acc, val_f1, val_loss = evaluate(model_tea, criterion, val_loader, device, conf, 'Val')
@@ -376,15 +396,15 @@ def main():
         val_auc, val_acc, val_f1, val_loss = evaluate(model, criterion, val_loader, device, conf, 'Val')
         test_auc, test_acc, test_f1, test_loss = evaluate(model, criterion, test_loader, device, conf, 'Test')
 
-        if log_writer is not None:
-            log_writer.log('perf/val_acc1', val_acc, commit=False)
-            log_writer.log('perf/val_auc', val_auc, commit=False)
-            log_writer.log('perf/val_f1', val_f1, commit=False)
-            log_writer.log('perf/val_loss', val_loss, commit=False)
-            log_writer.log('perf/test_acc1', test_acc, commit=False)
-            log_writer.log('perf/test_auc', test_auc, commit=False)
-            log_writer.log('perf/test_f1', test_f1, commit=False)
-            log_writer.log('perf/test_loss', test_loss, commit=False)
+        if conf.wandb_mode != 'disabled':
+            wandb.log({'test/test_acc1': test_acc}, commit=False)
+            wandb.log({'test/test_auc': test_auc}, commit=False)
+            wandb.log({'test/test_f1': test_f1}, commit=False)
+            wandb.log({'test/test_loss': test_loss}, commit=False)
+            wandb.log({'val/val_acc1': val_acc}, commit=False)
+            wandb.log({'val/val_auc': val_auc}, commit=False)
+            wandb.log({'val/val_f1': val_f1}, commit=False)
+            wandb.log({'val/val_loss': val_loss}, commit=False)
 
         if val_f1 + val_auc > best_state['val_f1'] + best_state['val_auc']:
             best_state['epoch'] = epoch
@@ -395,16 +415,16 @@ def main():
             best_state['test_acc'] = test_acc
             best_state['test_f1'] = test_f1
             # log_writer.summary('best_acc', val_acc)
-            saved_model = model if args.model != 'mhim' else model_tea
-            save_model(
-                conf=conf, model=saved_model, optimizer=optimizer, epoch=epoch, is_best=True)
+            save_model(conf=conf, model=model, optimizer=optimizer, epoch=epoch,
+                       save_path=os.path.join(ckpt_dir, 'checkpoint-best.pth'))
         print('\n')
 
-    saved_model = model if args.model != 'mhim' else model_tea
-    save_model(
-        conf=conf, model=saved_model, optimizer=optimizer, epoch=epoch, is_last=True)
+    save_model(conf=conf, model=model, optimizer=optimizer, epoch=epoch,
+               save_path=os.path.join(ckpt_dir, 'checkpoint-last.pth'))
     print("Results on best epoch:")
     print(best_state)
+
+    wandb.finish()
 
 
 if __name__ == '__main__':
