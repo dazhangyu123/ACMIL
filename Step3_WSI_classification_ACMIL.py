@@ -47,9 +47,7 @@ def get_arguments():
     )
     parser.add_argument("--arch", type=str, default='ga', choices=['ga', 'mha'], help="choice of architecture type")
     parser.add_argument('--pretrain', default='medical_ssl',
-                        choices=['natural_supervsied', 'medical_ssl', 'plip', 'path-clip-B-AAAI'
-                                                                              'path-clip-B', 'path-clip-L-336',
-                                 'openai-clip-B', 'openai-clip-L-336', 'quilt-net', 'biomedclip', 'path-clip-L-768'],
+                        choices=['natural_supervsied', 'medical_ssl', 'path-clip-L-336'],
                         help='settings of Tip-Adapter in yaml format')
     parser.add_argument(
         "--lr", type=float, default=0.0001, help="maksing ratio in the STKIM"
@@ -73,11 +71,7 @@ def main():
     elif conf.pretrain == 'natural_supervsied':
         conf.D_feat = 512
         conf.D_inner = 256
-    elif conf.pretrain == 'path-clip-B' or conf.pretrain == 'openai-clip-B' or conf.pretrain == 'plip'\
-            or conf.pretrain == 'quilt-net'  or conf.pretrain == 'path-clip-B-AAAI'  or conf.pretrain == 'biomedclip':
-        conf.D_feat = 512
-        conf.D_inner = 256
-    elif conf.pretrain == 'path-clip-L-336' or conf.pretrain == 'openai-clip-L-336' or conf.pretrain == 'path-clip-L-768':
+    elif conf.pretrain == 'path-clip-L-336':
         conf.D_feat = 768
         conf.D_inner = 384
 

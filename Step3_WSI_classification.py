@@ -41,10 +41,9 @@ def get_arguments():
         "--arch", type=str, default='dsmil', choices=['transmil', 'clam_sb', 'clam_mb', 'abmil', 'ilra',
                                                  'mha', 'dsmil', 'bmil_spvis', 'meanmil', 'maxmil'], help="number of query token"
     )
-    parser.add_argument('--pretrain', default='path-clip-L-336', choices=['natural_supervised', 'medical_ssl', 'plip', 'path-clip-B-AAAI',
-                                                                      'path-clip-B', 'path-clip-L-336', 'openai-clip-B',
-                                                                      'openai-clip-L-336', 'quilt-net', 'biomedclip'],
-                        help='pretrain methods')
+    parser.add_argument('--pretrain', default='medical_ssl',
+                        choices=['natural_supervsied', 'medical_ssl', 'path-clip-L-336'],
+                        help='settings of Tip-Adapter in yaml format')
     parser.add_argument(
         "--lr", type=float, default=0.0001, help="learning rate"
     )
@@ -64,14 +63,10 @@ def main():
     if conf.pretrain == 'medical_ssl':
         conf.D_feat = 384
         conf.D_inner = 128
-    elif conf.pretrain == 'natural_supervised':
+    elif conf.pretrain == 'natural_supervsied':
         conf.D_feat = 512
         conf.D_inner = 256
-    elif conf.pretrain == 'path-clip-B' or conf.pretrain == 'openai-clip-B' or conf.pretrain == 'plip'\
-            or conf.pretrain == 'quilt-net'  or conf.pretrain == 'path-clip-B-AAAI'  or conf.pretrain == 'biomedclip':
-        conf.D_feat = 512
-        conf.D_inner = 256
-    elif conf.pretrain == 'path-clip-L-336' or conf.pretrain == 'openai-clip-L-336':
+    elif conf.pretrain == 'path-clip-L-336':
         conf.D_feat = 768
         conf.D_inner = 384
 
