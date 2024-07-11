@@ -19,7 +19,7 @@ We provide a part of the extracted features to reimplement our results.
 |-------|---------------|
 | ImageNet supervised ResNet18 | [Download](https://pan.quark.cn/s/dd77e6a476a0) |
 | SSL ViT-S/16 | [Download](https://pan.quark.cn/s/6ea54bfa0e72) |
-| PathGen-CLIP ViT-L (334 × 334 pixels) | [Download](https://pan.quark.cn/s/62fe3dc65291) |
+| PathGen-CLIP ViT-L (336 × 336 pixels) | [Download](https://pan.quark.cn/s/62fe3dc65291) |
 
 ## Bracs Dataset
 
@@ -36,7 +36,7 @@ We provide a part of the extracted features to reimplement our results.
 |-------|---------------|
 | ImageNet supervised ResNet18 | [Download](https://pan.quark.cn/s/cbe4e1d0e68c) |
 | SSL ViT-S/16 | [Download](https://pan.quark.cn/s/3c8c1ffce517) |
-| PathGen-CLIP ViT-L (334 × 334 pixels) | [Download](https://pan.quark.cn/s/62fe3dc65291) |
+| PathGen-CLIP ViT-L (336 × 336 pixels) | [Download](https://pan.quark.cn/s/62fe3dc65291) |
 
 For your own dataset, you can modify and run [Step1_create_patches_fp.py](Step1_create_patches_fp.py) and [Step2_feature_extract.py](Step2_feature_extract.py). More details about this file can refer [**CLAM**](https://github.com/mahmoodlab/CLAM/).
 Note that we recommend extracting features using SSL pretrained method. Our code using the checkpoints provided by [Benchmarking Self-Supervised Learning on Diverse Pathology Datasets](https://openaccess.thecvf.com/content/CVPR2023/html/Kang_Benchmarking_Self-Supervised_Learning_on_Diverse_Pathology_Datasets_CVPR_2023_paper.html)
