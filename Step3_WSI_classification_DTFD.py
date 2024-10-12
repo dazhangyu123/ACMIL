@@ -237,10 +237,10 @@ def evaluate(classifier, attention, dimReduction, UClassifier, criterion, data_l
     y_pred = torch.cat(y_pred, dim=0)
     y_true = torch.cat(y_true, dim=0)
 
-    AUROC_metric = torchmetrics.AUROC(num_classes = conf.n_class, average = 'macro').to(device)
+    AUROC_metric = torchmetrics.AUROC(num_classes = conf.n_class, task='multiclass').to(device)
     AUROC_metric(y_pred, y_true)
     auroc = AUROC_metric.compute().item()
-    F1_metric = torchmetrics.F1Score(num_classes = conf.n_class, average = 'macro').to(device)
+    F1_metric = torchmetrics.F1Score(num_classes = conf.n_class, task='multiclass').to(device)
     F1_metric(y_pred, y_true)
     f1_score = F1_metric.compute().item()
 

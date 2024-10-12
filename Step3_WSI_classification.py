@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader
 
 from utils.utils import save_model, Struct, set_seed
 from datasets.datasets import build_HDF5_feat_dataset
-from architecture.transformer import MHA, ABMIL
+from architecture.transformer import MHA, ABMIL, ACMIL
 from architecture.transMIL import TransMIL
 from engine import train_one_epoch, evaluate
 from architecture.dsmil import MILNet, FCLayer, BClassifier
@@ -27,7 +27,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def get_arguments():
     parser = argparse.ArgumentParser('Patch classification training', add_help=False)
-    parser.add_argument('--config', dest='config', default='config/camelyon17_config.yml',
+    parser.add_argument('--config', dest='config', default='config/bracs_config.yml',
                         help='settings of dataset in yaml format')
     parser.add_argument(
         "--seed", type=int, default=5, help="set the random seed to ensure reproducibility"
@@ -38,11 +38,14 @@ def get_arguments():
         "--w_loss", type=float, default=1.0, help="number of query token"
     )
     parser.add_argument(
-        "--arch", type=str, default='dsmil', choices=['transmil', 'clam_sb', 'clam_mb', 'abmil', 'ilra',
-                                                 'mha', 'dsmil', 'bmil_spvis', 'meanmil', 'maxmil'], help="number of query token"
+        "--arch", type=str, default='acmil', choices=['transmil', 'clam_sb', 'clam_mb', 'abmil', 'ilra',
+                                                 'mha', 'dsmil', 'bmil_spvis', 'meanmil', 'maxmil', 'acmil'], help="number of query token"
     )
-    parser.add_argument('--pretrain', default='medical_ssl',
-                        choices=['natural_supervsied', 'medical_ssl', 'path-clip-L-336'],
+    parser.add_argument('--pretrain', default='GigaPath',
+                        choices=['natural_supervsied', 'medical_ssl', 'plip', 'path-clip-B-AAAI'
+                                                                              'path-clip-B', 'path-clip-L-336',
+                                 'openai-clip-B', 'openai-clip-L-336', 'quilt-net', 'biomedclip', 'path-clip-L-768',
+                                 'UNI', 'GigaPath'],
                         help='settings of Tip-Adapter in yaml format')
     parser.add_argument(
         "--lr", type=float, default=0.0001, help="learning rate"
@@ -63,12 +66,22 @@ def main():
     if conf.pretrain == 'medical_ssl':
         conf.D_feat = 384
         conf.D_inner = 128
-    elif conf.pretrain == 'natural_supervsied':
+    elif conf.pretrain == 'natural_supervised':
         conf.D_feat = 512
         conf.D_inner = 256
-    elif conf.pretrain == 'path-clip-L-336':
+    elif conf.pretrain == 'path-clip-B' or conf.pretrain == 'openai-clip-B' or conf.pretrain == 'plip'\
+            or conf.pretrain == 'quilt-net'  or conf.pretrain == 'path-clip-B-AAAI'  or conf.pretrain == 'biomedclip':
+        conf.D_feat = 512
+        conf.D_inner = 256
+    elif conf.pretrain == 'path-clip-L-336' or conf.pretrain == 'openai-clip-L-336':
         conf.D_feat = 768
         conf.D_inner = 384
+    elif conf.pretrain == 'UNI':
+        conf.D_feat = 1024
+        conf.D_inner = 512
+    elif conf.pretrain == 'GigaPath':
+        conf.D_feat = 1536
+        conf.D_inner = 768
 
 
     # start a new wandb run to track this script
@@ -78,7 +91,7 @@ def main():
         # track hyperparameters and run metadata
         config={'dataset': conf.dataset,
                 'pretrain': conf.pretrain,
-                'loss_form': conf.arch,
+                'arch': conf.arch,
                 'seed': conf.seed,},
         mode=conf.wandb_mode
     )
@@ -121,6 +134,8 @@ def main():
         net.relocate()
     elif conf.arch == 'abmil':
         net = ABMIL(conf)
+    elif conf.arch == 'acmil':
+        net = ACMIL(conf)
     elif conf.arch == 'meanmil':
         net = mean_max.MeanMIL(conf).to(device)
     elif conf.arch == 'maxmil':

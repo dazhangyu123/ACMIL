@@ -412,24 +412,14 @@ def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
     file.close()
     return output_path
 
-def save_model(conf, epoch, model, optimizer, is_best=False, is_last=False):
+def save_model(conf, epoch, model, optimizer, save_path):
     to_save = {
         'model': model.state_dict(),
         'optimizer': optimizer.state_dict(),
         'epoch': epoch,
         'config': conf,
     }
-
-    checkpoint_path = os.path.join(conf.ckpt_dir, 'checkpoint-%s.pth' % epoch)
-
-    # record the checkpoint with best validation accuracy
-    if is_best:
-        checkpoint_path = os.path.join(conf.ckpt_dir, 'checkpoint-best.pth')
-
-    if is_last:
-        checkpoint_path = os.path.join(conf.ckpt_dir, 'checkpoint-last.pth')
-
-    torch.save(to_save, checkpoint_path)
+    torch.save(to_save, save_path)
 
 
 class SAM(torch.optim.Optimizer):

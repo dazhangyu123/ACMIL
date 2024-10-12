@@ -26,7 +26,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def get_arguments():
     parser = argparse.ArgumentParser('WSI classification training', add_help=False)
-    parser.add_argument('--config', dest='config', default='config/camelyon17_config.yml',
+    parser.add_argument('--config', dest='config', default='config/camelyon_config.yml',
                         help='settings of dataset in yaml format')
     parser.add_argument(
         "--eval-only", action="store_true", help="evaluation only"
@@ -46,8 +46,10 @@ def get_arguments():
         "--mask_drop", type=float, default=0.6, help="maksing ratio in the STKIM"
     )
     parser.add_argument("--arch", type=str, default='ga', choices=['ga', 'mha'], help="choice of architecture type")
-    parser.add_argument('--pretrain', default='medical_ssl',
-                        choices=['natural_supervsied', 'medical_ssl', 'path-clip-L-336'],
+    parser.add_argument('--pretrain', default='GigaPath',
+                        choices=['natural_supervsied', 'medical_ssl', 'plip', 'path-clip-B-AAAI'
+                                 'openai-clip-B', 'openai-clip-L-336', 'quilt-net', 'path-clip-B', 'path-clip-L-336',
+                                 'biomedclip', 'path-clip-L-768', 'UNI', 'GigaPath'],
                         help='settings of Tip-Adapter in yaml format')
     parser.add_argument(
         "--lr", type=float, default=0.0001, help="maksing ratio in the STKIM"
@@ -68,17 +70,26 @@ def main():
     if conf.pretrain == 'medical_ssl':
         conf.D_feat = 384
         conf.D_inner = 128
-    elif conf.pretrain == 'natural_supervsied':
+    elif conf.pretrain == 'natural_supervised':
         conf.D_feat = 512
         conf.D_inner = 256
-    elif conf.pretrain == 'path-clip-L-336':
+    elif conf.pretrain == 'path-clip-B' or conf.pretrain == 'openai-clip-B' or conf.pretrain == 'plip'\
+            or conf.pretrain == 'quilt-net'  or conf.pretrain == 'path-clip-B-AAAI'  or conf.pretrain == 'biomedclip':
+        conf.D_feat = 512
+        conf.D_inner = 256
+    elif conf.pretrain == 'path-clip-L-336' or conf.pretrain == 'openai-clip-L-336':
         conf.D_feat = 768
         conf.D_inner = 384
+    elif conf.pretrain == 'UNI':
+        conf.D_feat = 1024
+        conf.D_inner = 512
+    elif conf.pretrain == 'GigaPath':
+        conf.D_feat = 1536
+        conf.D_inner = 768
 
     wandb.init(
         # set the wandb project where this run will be logged
         project="wsi_classification",
-
         # track hyperparameters and run metadata
         config={
                 'dataset':conf.dataset,
@@ -87,7 +98,8 @@ def main():
                 'num_tokens': conf.n_token,
                 'num_masked_instances':conf.n_masked_patch,
                 'mask_drop': conf.mask_drop,
-                'lr': conf.lr,},
+                'lr': conf.lr,
+                'seed':conf.seed},
         mode=args.wandb_mode
     )
     run_dir = wandb.run.dir  # Get the wandb run directory
@@ -267,10 +279,10 @@ def evaluate(net, criterion, data_loader, device, conf, header):
     y_pred = torch.cat(y_pred, dim=0)
     y_true = torch.cat(y_true, dim=0)
 
-    AUROC_metric = torchmetrics.AUROC(num_classes = conf.n_class, average = 'macro').to(device)
+    AUROC_metric = torchmetrics.AUROC(num_classes = conf.n_class, task='multiclass').to(device)
     AUROC_metric(y_pred, y_true)
     auroc = AUROC_metric.compute().item()
-    F1_metric = torchmetrics.F1Score(num_classes = conf.n_class, average = 'macro').to(device)
+    F1_metric = torchmetrics.F1Score(num_classes = conf.n_class, task='multiclass').to(device)
     F1_metric(y_pred, y_true)
     f1_score = F1_metric.compute().item()
 
