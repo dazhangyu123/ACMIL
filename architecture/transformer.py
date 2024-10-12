@@ -292,14 +292,14 @@ class ACMIL_GA(nn.Module):
     def __init__(self, conf, D=128, droprate=0, n_token=1, n_masked_patch=0, mask_drop=0):
         super(ACMIL_GA, self).__init__()
         self.dimreduction = DimReduction(conf.D_feat, conf.D_inner)
-        self.attention = Attention_Gated(conf.D_inner, D, conf.n_token)
+        self.attention = Attention_Gated(conf.D_inner, D, n_token)
         self.classifier = nn.ModuleList()
-        for i in range(conf.n_token):
+        for i in range(n_token):
             self.classifier.append(Classifier_1fc(conf.D_inner, conf.n_class, droprate))
-        self.n_masked_patch = conf.n_masked_patch
+        self.n_masked_patch = n_masked_patch
         self.n_token = conf.n_token
         self.Slide_classifier = Classifier_1fc(conf.D_inner, conf.n_class, droprate)
-        self.mask_drop = conf.mask_drop
+        self.mask_drop = mask_drop
 
 
     def forward(self, x): ## x: N x L

@@ -9,7 +9,7 @@ min_lr: 0
 dataset: bracs
 B: 1
 n_class: 3                            # number of classes
-data_dir: '/mnt/Xsky/zyl/dataset/bracs/roi_feats_x20'       # directory of dataset
+data_dir: '/mnt/Xsky/zyl/dataset/bracs/roi_feats_x10'       # directory of dataset
 n_worker: 8                          # number of workers
 pin_memory: False                     # use pin memory in dataloader
 n_shot: -1

@@ -50,7 +50,7 @@ def get_arguments():
     parser.add_argument('--grad_clipping', default=5, type=float)
 
     parser.add_argument('--pretrain', default='medical_ssl',
-                        choices=['natural_supervsied', 'medical_ssl', 'path-clip-L-336'],
+                        choices=['natural_supervised', 'medical_ssl', 'path-clip-L-336'],
                         help='settings of Tip-Adapter in yaml format')
     parser.add_argument(
         "--lr", type=float, default=0.0001, help="learning rate"

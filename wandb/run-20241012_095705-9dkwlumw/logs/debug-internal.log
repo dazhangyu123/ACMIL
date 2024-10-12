@@ -1,0 +1,204 @@
+2024-10-12 09:57:05,749 INFO    StreamThr :16075 [internal.py:wandb_internal():86] W&B internal server running at pid: 16075, started at: 2024-10-12 09:57:05.733540
+2024-10-12 09:57:05,752 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: status
+2024-10-12 09:57:05,753 INFO    WriterThread:16075 [datastore.py:open_for_write():85] open: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/run-9dkwlumw.wandb
+2024-10-12 09:57:05,757 DEBUG   SenderThread:16075 [sender.py:send():379] send: header
+2024-10-12 09:57:05,767 DEBUG   SenderThread:16075 [sender.py:send():379] send: run
+2024-10-12 09:57:06,782 INFO    SenderThread:16075 [dir_watcher.py:__init__():211] watching files in: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files
+2024-10-12 09:57:06,782 INFO    SenderThread:16075 [sender.py:_start_run_threads():1121] run started: 9dkwlumw with start time 1728698225.734191
+2024-10-12 09:57:06,783 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: summary_record
+2024-10-12 09:57:06,787 INFO    SenderThread:16075 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2024-10-12 09:57:06,791 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: check_version
+2024-10-12 09:57:06,791 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: check_version
+2024-10-12 09:57:07,068 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: run_start
+2024-10-12 09:57:07,080 DEBUG   HandlerThread:16075 [system_info.py:__init__():31] System info init
+2024-10-12 09:57:07,080 DEBUG   HandlerThread:16075 [system_info.py:__init__():46] System info init done
+2024-10-12 09:57:07,080 INFO    HandlerThread:16075 [system_monitor.py:start():181] Starting system monitor
+2024-10-12 09:57:07,080 INFO    SystemMonitor:16075 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2024-10-12 09:57:07,080 INFO    HandlerThread:16075 [system_monitor.py:probe():201] Collecting system info
+2024-10-12 09:57:07,081 INFO    SystemMonitor:16075 [interfaces.py:start():190] Started cpu monitoring
+2024-10-12 09:57:07,081 INFO    SystemMonitor:16075 [interfaces.py:start():190] Started disk monitoring
+2024-10-12 09:57:07,082 INFO    SystemMonitor:16075 [interfaces.py:start():190] Started gpu monitoring
+2024-10-12 09:57:07,082 INFO    SystemMonitor:16075 [interfaces.py:start():190] Started memory monitoring
+2024-10-12 09:57:07,083 INFO    SystemMonitor:16075 [interfaces.py:start():190] Started network monitoring
+2024-10-12 09:57:07,131 DEBUG   HandlerThread:16075 [system_info.py:probe():195] Probing system
+2024-10-12 09:57:07,138 DEBUG   HandlerThread:16075 [system_info.py:_probe_git():180] Probing git
+2024-10-12 09:57:07,157 DEBUG   HandlerThread:16075 [system_info.py:_probe_git():188] Probing git done
+2024-10-12 09:57:07,157 DEBUG   HandlerThread:16075 [system_info.py:probe():240] Probing system done
+2024-10-12 09:57:07,157 DEBUG   HandlerThread:16075 [system_monitor.py:probe():210] {'os': 'Linux-3.10.0-1160.88.1.el7.x86_64-x86_64-with-glibc2.17', 'python': '3.10.15', 'heartbeatAt': '2024-10-12T01:57:07.132104', 'startedAt': '2024-10-12T01:57:05.696663', 'docker': None, 'cuda': None, 'args': ('--seed', '4', '--wandb_mode', 'online', '--arch', 'ga', '--n_token', '5', '--n_masked_patch', '10', '--mask_drop', '0.6', '--pretrain', 'medical_ssl', '--config', 'config/bracs_config.yml'), 'state': 'running', 'program': '/mnt/Xsky/zyl/code/ACMIL/Step3_WSI_classification_ACMIL.py', 'codePath': 'Step3_WSI_classification_ACMIL.py', 'git': {'remote': 'git@github.com:dazhangyu123/ACMIL.git', 'commit': '3338a9bccbb8d002aac43b2e6f6a99acffbf5752'}, 'email': '1013298661@qq.com', 'root': '/mnt/Xsky/zyl/code/ACMIL', 'host': 'localhost.localdomain', 'username': 'root', 'executable': '/data/zyl/anaconda3/envs/wsi/bin/python', 'cpu_count': 32, 'cpu_count_logical': 64, 'cpu_freq': {'current': 2553.380359374999, 'min': 1000.0, 'max': 3900.0}, 'cpu_freq_per_core': [{'current': 2707.666, 'min': 1000.0, 'max': 3900.0}, {'current': 2746.691, 'min': 1000.0, 'max': 3900.0}, {'current': 2534.155, 'min': 1000.0, 'max': 3900.0}, {'current': 2504.254, 'min': 1000.0, 'max': 3900.0}, {'current': 2562.371, 'min': 1000.0, 'max': 3900.0}, {'current': 2594.659, 'min': 1000.0, 'max': 3900.0}, {'current': 2632.843, 'min': 1000.0, 'max': 3900.0}, {'current': 2696.435, 'min': 1000.0, 'max': 3900.0}, {'current': 2563.916, 'min': 1000.0, 'max': 3900.0}, {'current': 2799.896, 'min': 1000.0, 'max': 3900.0}, {'current': 2659.094, 'min': 1000.0, 'max': 3900.0}, {'current': 2492.883, 'min': 1000.0, 'max': 3900.0}, {'current': 2675.799, 'min': 1000.0, 'max': 3900.0}, {'current': 2525.17, 'min': 1000.0, 'max': 3900.0}, {'current': 2565.179, 'min': 1000.0, 'max': 3900.0}, {'current': 2534.576, 'min': 1000.0, 'max': 3900.0}, {'current': 2559.002, 'min': 1000.0, 'max': 3900.0}, {'current': 2655.584, 'min': 1000.0, 'max': 3900.0}, {'current': 2539.77, 'min': 1000.0, 'max': 3900.0}, {'current': 2632.0, 'min': 1000.0, 'max': 3900.0}, {'current': 2670.184, 'min': 1000.0, 'max': 3900.0}, {'current': 2631.018, 'min': 1000.0, 'max': 3900.0}, {'current': 2690.539, 'min': 1000.0, 'max': 3900.0}, {'current': 2525.311, 'min': 1000.0, 'max': 3900.0}, {'current': 2546.087, 'min': 1000.0, 'max': 3900.0}, {'current': 2690.96, 'min': 1000.0, 'max': 3900.0}, {'current': 2503.131, 'min': 1000.0, 'max': 3900.0}, {'current': 2732.092, 'min': 1000.0, 'max': 3900.0}, {'current': 2735.04, 'min': 1000.0, 'max': 3900.0}, {'current': 2637.615, 'min': 1000.0, 'max': 3900.0}, {'current': 2566.723, 'min': 1000.0, 'max': 3900.0}, {'current': 2704.998, 'min': 1000.0, 'max': 3900.0}, {'current': 2684.924, 'min': 1000.0, 'max': 3900.0}, {'current': 2695.593, 'min': 1000.0, 'max': 3900.0}, {'current': 2527.557, 'min': 1000.0, 'max': 3900.0}, {'current': 2521.099, 'min': 1000.0, 'max': 3900.0}, {'current': 2553.808, 'min': 1000.0, 'max': 3900.0}, {'current': 2595.642, 'min': 1000.0, 'max': 3900.0}, {'current': 2702.471, 'min': 1000.0, 'max': 3900.0}, {'current': 2677.624, 'min': 1000.0, 'max': 3900.0}, {'current': 2559.985, 'min': 1000.0, 'max': 3900.0}, {'current': 2799.896, 'min': 1000.0, 'max': 3900.0}, {'current': 2638.598, 'min': 1000.0, 'max': 3900.0}, {'current': 2466.632, 'min': 1000.0, 'max': 3900.0}, {'current': 2666.113, 'min': 1000.0, 'max': 3900.0}, {'current': 2533.032, 'min': 1000.0, 'max': 3900.0}, {'current': 2545.666, 'min': 1000.0, 'max': 3900.0}, {'current': 2529.522, 'min': 1000.0, 'max': 3900.0}, {'current': 2565.319, 'min': 1000.0, 'max': 3900.0}, {'current': 2738.83, 'min': 1000.0, 'max': 3900.0}, {'current': 2519.696, 'min': 1000.0, 'max': 3900.0}, {'current': 2663.024, 'min': 1000.0, 'max': 3900.0}, {'current': 2630.596, 'min': 1000.0, 'max': 3900.0}, {'current': 2600.134, 'min': 1000.0, 'max': 3900.0}, {'current': 2633.825, 'min': 1000.0, 'max': 3900.0}, {'current': 2534.576, 'min': 1000.0, 'max': 3900.0}, {'current': 2553.527, 'min': 1000.0, 'max': 3900.0}, {'current': 2697.698, 'min': 1000.0, 'max': 3900.0}, {'current': 2523.907, 'min': 1000.0, 'max': 3900.0}, {'current': 2738.128, 'min': 1000.0, 'max': 3900.0}, {'current': 2664.147, 'min': 1000.0, 'max': 3900.0}, {'current': 2578.515, 'min': 1000.0, 'max': 3900.0}, {'current': 2566.723, 'min': 1000.0, 'max': 3900.0}, {'current': 2657.128, 'min': 1000.0, 'max': 3900.0}], 'disk': {'total': 406.02000427246094, 'used': 83.21227645874023}, 'gpu': 'Quadro RTX 6000', 'gpu_count': 4, 'gpu_devices': [{'name': 'Quadro RTX 6000', 'memory_total': 25769803776}, {'name': 'Quadro RTX 6000', 'memory_total': 25769803776}, {'name': 'Quadro RTX 6000', 'memory_total': 25769803776}, {'name': 'Quadro RTX 6000', 'memory_total': 25769803776}], 'memory': {'total': 125.39631652832031}}
+2024-10-12 09:57:07,157 INFO    HandlerThread:16075 [system_monitor.py:probe():211] Finished collecting system info
+2024-10-12 09:57:07,157 INFO    HandlerThread:16075 [system_monitor.py:probe():214] Publishing system info
+2024-10-12 09:57:07,157 DEBUG   HandlerThread:16075 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2024-10-12 09:57:07,162 DEBUG   HandlerThread:16075 [system_info.py:_save_pip():67] Saving pip packages done
+2024-10-12 09:57:07,162 DEBUG   HandlerThread:16075 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2024-10-12 09:57:07,786 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_created():271] file/dir created: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/wandb-summary.json
+2024-10-12 09:57:07,786 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_created():271] file/dir created: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/requirements.txt
+2024-10-12 09:57:07,787 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_created():271] file/dir created: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/conda-environment.yaml
+2024-10-12 09:57:12,502 DEBUG   HandlerThread:16075 [system_info.py:_save_conda():86] Saving conda packages done
+2024-10-12 09:57:12,508 INFO    HandlerThread:16075 [system_monitor.py:probe():216] Finished publishing system info
+2024-10-12 09:57:12,510 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: status_report
+2024-10-12 09:57:12,510 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: keepalive
+2024-10-12 09:57:12,510 DEBUG   SenderThread:16075 [sender.py:send():379] send: files
+2024-10-12 09:57:12,510 INFO    SenderThread:16075 [sender.py:_save_file():1375] saving file wandb-metadata.json with policy now
+2024-10-12 09:57:12,518 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: stop_status
+2024-10-12 09:57:12,518 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: stop_status
+2024-10-12 09:57:12,801 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_modified():288] file/dir modified: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/conda-environment.yaml
+2024-10-12 09:57:12,801 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_created():271] file/dir created: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/wandb-metadata.json
+2024-10-12 09:57:12,802 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_created():271] file/dir created: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/saved_models
+2024-10-12 09:57:13,224 DEBUG   SenderThread:16075 [sender.py:send():379] send: telemetry
+2024-10-12 09:57:13,738 INFO    wandb-upload_0:16075 [upload_job.py:push():131] Uploaded file /tmp/tmp623pttkkwandb/8qyupxh2-wandb-metadata.json
+2024-10-12 09:57:13,804 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_created():271] file/dir created: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/output.log
+2024-10-12 09:57:15,810 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_modified():288] file/dir modified: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/output.log
+2024-10-12 09:57:16,231 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: status_report
+2024-10-12 09:57:21,231 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: status_report
+2024-10-12 09:57:26,232 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: status_report
+2024-10-12 09:57:27,517 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: stop_status
+2024-10-12 09:57:27,518 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: stop_status
+2024-10-12 09:57:29,314 DEBUG   SenderThread:16075 [sender.py:send():379] send: exit
+2024-10-12 09:57:29,314 INFO    SenderThread:16075 [sender.py:send_exit():584] handling exit code: 255
+2024-10-12 09:57:29,314 INFO    SenderThread:16075 [sender.py:send_exit():586] handling runtime: 22
+2024-10-12 09:57:29,319 INFO    SenderThread:16075 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2024-10-12 09:57:29,320 INFO    SenderThread:16075 [sender.py:send_exit():592] send defer
+2024-10-12 09:57:29,320 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:29,320 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 0
+2024-10-12 09:57:29,321 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:29,321 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 0
+2024-10-12 09:57:29,321 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 1
+2024-10-12 09:57:29,321 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:29,321 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 1
+2024-10-12 09:57:29,321 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:29,322 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 1
+2024-10-12 09:57:29,322 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 2
+2024-10-12 09:57:29,322 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:29,322 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 2
+2024-10-12 09:57:29,322 INFO    HandlerThread:16075 [system_monitor.py:finish():190] Stopping system monitor
+2024-10-12 09:57:29,323 DEBUG   SystemMonitor:16075 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2024-10-12 09:57:29,323 INFO    HandlerThread:16075 [interfaces.py:finish():202] Joined cpu monitor
+2024-10-12 09:57:29,323 DEBUG   SystemMonitor:16075 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2024-10-12 09:57:29,324 DEBUG   SystemMonitor:16075 [system_monitor.py:_start():170] Publishing last batch of metrics
+2024-10-12 09:57:29,327 INFO    HandlerThread:16075 [interfaces.py:finish():202] Joined disk monitor
+2024-10-12 09:57:29,894 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_modified():288] file/dir modified: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/wandb-summary.json
+2024-10-12 09:57:29,903 INFO    HandlerThread:16075 [interfaces.py:finish():202] Joined gpu monitor
+2024-10-12 09:57:29,903 INFO    HandlerThread:16075 [interfaces.py:finish():202] Joined memory monitor
+2024-10-12 09:57:29,903 INFO    HandlerThread:16075 [interfaces.py:finish():202] Joined network monitor
+2024-10-12 09:57:29,904 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:29,904 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 2
+2024-10-12 09:57:29,904 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 3
+2024-10-12 09:57:29,904 DEBUG   SenderThread:16075 [sender.py:send():379] send: stats
+2024-10-12 09:57:29,905 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:29,905 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 3
+2024-10-12 09:57:29,905 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:29,905 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 3
+2024-10-12 09:57:29,905 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 4
+2024-10-12 09:57:29,905 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:29,905 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 4
+2024-10-12 09:57:29,905 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:29,905 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 4
+2024-10-12 09:57:29,905 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 5
+2024-10-12 09:57:29,906 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:29,906 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 5
+2024-10-12 09:57:29,906 DEBUG   SenderThread:16075 [sender.py:send():379] send: summary
+2024-10-12 09:57:29,911 INFO    SenderThread:16075 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2024-10-12 09:57:29,912 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:29,912 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 5
+2024-10-12 09:57:29,912 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 6
+2024-10-12 09:57:29,913 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:29,913 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 6
+2024-10-12 09:57:29,913 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:29,913 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 6
+2024-10-12 09:57:29,919 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: status_report
+2024-10-12 09:57:30,314 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: poll_exit
+2024-10-12 09:57:30,895 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_modified():288] file/dir modified: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/wandb-summary.json
+2024-10-12 09:57:30,964 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 7
+2024-10-12 09:57:30,964 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: poll_exit
+2024-10-12 09:57:30,964 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:30,964 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 7
+2024-10-12 09:57:30,965 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:30,965 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 7
+2024-10-12 09:57:31,314 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: poll_exit
+2024-10-12 09:57:31,327 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 8
+2024-10-12 09:57:31,327 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: poll_exit
+2024-10-12 09:57:31,327 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:31,328 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 8
+2024-10-12 09:57:31,328 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:31,328 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 8
+2024-10-12 09:57:31,328 INFO    SenderThread:16075 [job_builder.py:build():281] Attempting to build job artifact
+2024-10-12 09:57:31,329 INFO    SenderThread:16075 [job_builder.py:_get_source_type():400] is repo sourced job
+2024-10-12 09:57:31,331 INFO    SenderThread:16075 [job_builder.py:build():374] adding wandb-job metadata file
+2024-10-12 09:57:31,337 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 9
+2024-10-12 09:57:31,337 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:31,337 DEBUG   SenderThread:16075 [sender.py:send():379] send: artifact
+2024-10-12 09:57:31,337 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 9
+2024-10-12 09:57:31,896 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_modified():288] file/dir modified: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/config.yaml
+2024-10-12 09:57:31,897 INFO    Thread-12 :16075 [dir_watcher.py:_on_file_modified():288] file/dir modified: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/output.log
+2024-10-12 09:57:32,315 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: poll_exit
+2024-10-12 09:57:33,374 INFO    wandb-upload_1:16075 [upload_job.py:push():89] Uploaded file /home/zhangyl/.local/share/wandb/artifacts/staging/tmpdkf8wph4
+2024-10-12 09:57:33,440 INFO    wandb-upload_0:16075 [upload_job.py:push():89] Uploaded file /home/zhangyl/.local/share/wandb/artifacts/staging/tmpgi9q3hqu
+2024-10-12 09:57:35,181 INFO    SenderThread:16075 [sender.py:send_artifact():1475] sent artifact job-git_github.com_dazhangyu123_ACMIL.git_Step3_WSI_classification_ACMIL.py - {'id': 'QXJ0aWZhY3Q6MTI2OTExMzk3Mg==', 'digest': 'a902e2ad76cf2b2af72d291b883aff70', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjQ2ODA2MTQ0Nw==', 'latestArtifact': None}, 'version': 'latest'}
+2024-10-12 09:57:35,181 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:35,181 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 9
+2024-10-12 09:57:35,181 INFO    SenderThread:16075 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-10-12 09:57:35,900 INFO    SenderThread:16075 [dir_watcher.py:finish():388] scan: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files
+2024-10-12 09:57:35,900 INFO    SenderThread:16075 [dir_watcher.py:finish():402] scan save: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/conda-environment.yaml conda-environment.yaml
+2024-10-12 09:57:35,901 INFO    SenderThread:16075 [dir_watcher.py:finish():402] scan save: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/config.yaml config.yaml
+2024-10-12 09:57:35,901 INFO    SenderThread:16075 [dir_watcher.py:finish():402] scan save: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/output.log output.log
+2024-10-12 09:57:35,906 INFO    SenderThread:16075 [dir_watcher.py:finish():402] scan save: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/requirements.txt requirements.txt
+2024-10-12 09:57:35,907 INFO    SenderThread:16075 [dir_watcher.py:finish():402] scan save: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/wandb-metadata.json wandb-metadata.json
+2024-10-12 09:57:35,907 INFO    SenderThread:16075 [dir_watcher.py:finish():402] scan save: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/wandb-summary.json wandb-summary.json
+2024-10-12 09:57:35,914 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 10
+2024-10-12 09:57:35,915 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: poll_exit
+2024-10-12 09:57:35,915 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:35,915 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 10
+2024-10-12 09:57:35,916 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:35,916 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 10
+2024-10-12 09:57:35,916 INFO    SenderThread:16075 [file_pusher.py:finish():159] shutting down file pusher
+2024-10-12 09:57:36,610 INFO    wandb-upload_1:16075 [upload_job.py:push():131] Uploaded file /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/conda-environment.yaml
+2024-10-12 09:57:36,797 INFO    wandb-upload_0:16075 [upload_job.py:push():131] Uploaded file /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/config.yaml
+2024-10-12 09:57:36,916 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: status_report
+2024-10-12 09:57:37,160 INFO    wandb-upload_2:16075 [upload_job.py:push():131] Uploaded file /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/output.log
+2024-10-12 09:57:37,236 INFO    wandb-upload_3:16075 [upload_job.py:push():131] Uploaded file /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/requirements.txt
+2024-10-12 09:57:37,237 INFO    wandb-upload_4:16075 [upload_job.py:push():131] Uploaded file /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/files/wandb-summary.json
+2024-10-12 09:57:37,317 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: keepalive
+2024-10-12 09:57:37,438 INFO    Thread-11 (_thread_body):16075 [sender.py:transition_state():612] send defer: 11
+2024-10-12 09:57:37,439 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:37,439 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 11
+2024-10-12 09:57:37,439 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:37,440 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 11
+2024-10-12 09:57:37,440 INFO    SenderThread:16075 [file_pusher.py:join():164] waiting for file pusher
+2024-10-12 09:57:37,440 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 12
+2024-10-12 09:57:37,440 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:37,440 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 12
+2024-10-12 09:57:37,440 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:37,441 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 12
+2024-10-12 09:57:37,441 INFO    SenderThread:16075 [file_stream.py:finish():593] file stream finish called
+2024-10-12 09:57:37,735 INFO    SenderThread:16075 [file_stream.py:finish():597] file stream finish is done
+2024-10-12 09:57:37,735 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 13
+2024-10-12 09:57:37,735 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:37,735 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 13
+2024-10-12 09:57:37,735 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:37,735 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 13
+2024-10-12 09:57:37,735 INFO    SenderThread:16075 [sender.py:transition_state():612] send defer: 14
+2024-10-12 09:57:37,736 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: defer
+2024-10-12 09:57:37,736 INFO    HandlerThread:16075 [handler.py:handle_request_defer():170] handle defer: 14
+2024-10-12 09:57:37,736 DEBUG   SenderThread:16075 [sender.py:send():379] send: final
+2024-10-12 09:57:37,736 DEBUG   SenderThread:16075 [sender.py:send():379] send: footer
+2024-10-12 09:57:37,736 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: defer
+2024-10-12 09:57:37,736 INFO    SenderThread:16075 [sender.py:send_request_defer():608] handle sender defer: 14
+2024-10-12 09:57:37,737 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: poll_exit
+2024-10-12 09:57:37,737 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: poll_exit
+2024-10-12 09:57:37,737 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: server_info
+2024-10-12 09:57:37,737 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: server_info
+2024-10-12 09:57:37,739 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: get_summary
+2024-10-12 09:57:37,740 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: sampled_history
+2024-10-12 09:57:37,740 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: job_info
+2024-10-12 09:57:37,988 DEBUG   SenderThread:16075 [sender.py:send_request():406] send_request: job_info
+2024-10-12 09:57:37,988 INFO    MainThread:16075 [wandb_run.py:_footer_history_summary_info():3481] rendering history
+2024-10-12 09:57:37,988 INFO    MainThread:16075 [wandb_run.py:_footer_history_summary_info():3513] rendering summary
+2024-10-12 09:57:37,989 INFO    MainThread:16075 [wandb_run.py:_footer_sync_info():3440] logging synced files
+2024-10-12 09:57:37,989 DEBUG   HandlerThread:16075 [handler.py:handle_request():144] handle_request: shutdown
+2024-10-12 09:57:37,989 INFO    HandlerThread:16075 [handler.py:finish():857] shutting down handler
+2024-10-12 09:57:38,740 INFO    WriterThread:16075 [datastore.py:close():294] close: /mnt/Xsky/zyl/code/ACMIL/wandb/run-20241012_095705-9dkwlumw/run-9dkwlumw.wandb
+2024-10-12 09:57:38,787 WARNING StreamThr :16075 [internal.py:is_dead():414] Internal process exiting, parent pid 14560 disappeared
+2024-10-12 09:57:38,787 ERROR   StreamThr :16075 [internal.py:wandb_internal():152] Internal process shutdown.
+2024-10-12 09:57:38,988 INFO    SenderThread:16075 [sender.py:finish():1552] shutting down sender
+2024-10-12 09:57:38,988 INFO    SenderThread:16075 [file_pusher.py:finish():159] shutting down file pusher
+2024-10-12 09:57:38,988 INFO    SenderThread:16075 [file_pusher.py:join():164] waiting for file pusher

@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader
 
 from utils.utils import save_model, Struct, set_seed
 from datasets.datasets import build_HDF5_feat_dataset
-from architecture.transformer import MHA, ABMIL, ACMIL
+from architecture.transformer import MHA, ABMIL
 from architecture.transMIL import TransMIL
 from engine import train_one_epoch, evaluate
 from architecture.dsmil import MILNet, FCLayer, BClassifier
@@ -38,10 +38,10 @@ def get_arguments():
         "--w_loss", type=float, default=1.0, help="number of query token"
     )
     parser.add_argument(
-        "--arch", type=str, default='acmil', choices=['transmil', 'clam_sb', 'clam_mb', 'abmil', 'ilra',
+        "--arch", type=str, default='abmil', choices=['transmil', 'clam_sb', 'clam_mb', 'abmil', 'ilra',
                                                  'mha', 'dsmil', 'bmil_spvis', 'meanmil', 'maxmil', 'acmil'], help="number of query token"
     )
-    parser.add_argument('--pretrain', default='GigaPath',
+    parser.add_argument('--pretrain', default='medical_ssl',
                         choices=['natural_supervsied', 'medical_ssl', 'plip', 'path-clip-B-AAAI'
                                                                               'path-clip-B', 'path-clip-L-336',
                                  'openai-clip-B', 'openai-clip-L-336', 'quilt-net', 'biomedclip', 'path-clip-L-768',
@@ -134,8 +134,6 @@ def main():
         net.relocate()
     elif conf.arch == 'abmil':
         net = ABMIL(conf)
-    elif conf.arch == 'acmil':
-        net = ACMIL(conf)
     elif conf.arch == 'meanmil':
         net = mean_max.MeanMIL(conf).to(device)
     elif conf.arch == 'maxmil':

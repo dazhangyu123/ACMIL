@@ -1,4 +1,3 @@
-
 # !/usr/bin/env python
 import sys
 import os
@@ -46,13 +45,13 @@ def get_arguments():
         "--mask_drop", type=float, default=0.6, help="maksing ratio in the STKIM"
     )
     parser.add_argument("--arch", type=str, default='ga', choices=['ga', 'mha'], help="choice of architecture type")
-    parser.add_argument('--pretrain', default='GigaPath',
-                        choices=['natural_supervsied', 'medical_ssl', 'plip', 'path-clip-B-AAAI'
+    parser.add_argument('--pretrain', default='medical_ssl',
+                        choices=['natural_supervised', 'medical_ssl', 'plip', 'path-clip-B-AAAI'
                                  'openai-clip-B', 'openai-clip-L-336', 'quilt-net', 'path-clip-B', 'path-clip-L-336',
                                  'biomedclip', 'path-clip-L-768', 'UNI', 'GigaPath'],
-                        help='settings of Tip-Adapter in yaml format')
+                        help='pretrained backbone')
     parser.add_argument(
-        "--lr", type=float, default=0.0001, help="maksing ratio in the STKIM"
+        "--lr", type=float, default=0.0001, help="learning rate"
     )
     args = parser.parse_args()
     return args
@@ -124,9 +123,9 @@ def main():
 
     # define network
     if conf.arch == 'ga':
-        model = ACMIL_GA(conf, n_token=conf.n_token, n_masked_patch=conf.n_token, mask_drop=conf.mask_drop)
+        model = ACMIL_GA(conf, n_token=conf.n_token, n_masked_patch=conf.n_masked_patch, mask_drop=conf.mask_drop)
     else:
-        model = ACMIL_MHA(conf, n_token=conf.n_token, n_masked_patch=conf.n_token, mask_drop=conf.mask_drop)
+        model = ACMIL_MHA(conf, n_token=conf.n_token, n_masked_patch=conf.n_masked_patch, mask_drop=conf.mask_drop)
     model.to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -208,11 +207,6 @@ def train_one_epoch(model, criterion, data_loader, optimizer0, device, epoch, co
 
         diff_loss = torch.tensor(0).to(device, dtype=torch.float)
         attn = torch.softmax(attn, dim=-1)
-        # if conf.arch == 'mha':
-        #     for i in range(8):
-        #         for j in range(i + 1, 8):
-        #             diff_loss += torch.cosine_similarity(attn[i], attn[j], dim=-1).mean() / (
-        #                     8 * (8 - 1) / 2)
 
         for i in range(conf.n_token):
             for j in range(i + 1, conf.n_token):

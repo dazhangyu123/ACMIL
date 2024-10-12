@@ -1,0 +1,36 @@
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_setup.py:_flush():76] Current SDK version is 0.15.8
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_setup.py:_flush():76] Configure stats pid to 10032
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_setup.py:_flush():76] Loading settings from /home/zhangyl/.config/wandb/settings
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_setup.py:_flush():76] Loading settings from /mnt/Xsky/zyl/code/ACMIL/wandb/settings
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'Step3_WSI_classification_ACMIL.py', 'program': '/mnt/Xsky/zyl/code/ACMIL/Step3_WSI_classification_ACMIL.py'}
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_init.py:_log_setup():507] Logging user logs to /mnt/Xsky/zyl/code/ACMIL/wandb/offline-run-20241012_102005-z486dkm4/logs/debug.log
+2024-10-12 10:20:05,674 INFO    MainThread:10032 [wandb_init.py:_log_setup():508] Logging internal logs to /mnt/Xsky/zyl/code/ACMIL/wandb/offline-run-20241012_102005-z486dkm4/logs/debug-internal.log
+2024-10-12 10:20:05,675 INFO    MainThread:10032 [wandb_init.py:init():547] calling init triggers
+2024-10-12 10:20:05,675 INFO    MainThread:10032 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {'dataset': 'bracs', 'pretrain': 'natural_supervised', 'arch': 'ga', 'num_tokens': 1, 'num_masked_instances': 0, 'mask_drop': 0.6, 'lr': 0.0001, 'seed': 1}
+2024-10-12 10:20:05,675 INFO    MainThread:10032 [wandb_init.py:init():596] starting backend
+2024-10-12 10:20:05,675 INFO    MainThread:10032 [wandb_init.py:init():600] setting up manager
+2024-10-12 10:20:05,677 INFO    MainThread:10032 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-10-12 10:20:05,679 INFO    MainThread:10032 [wandb_init.py:init():606] backend started and connected
+2024-10-12 10:20:05,690 INFO    MainThread:10032 [wandb_init.py:init():697] updated telemetry
+2024-10-12 10:20:05,713 INFO    MainThread:10032 [wandb_init.py:init():730] communicating run to backend with 60.0 second timeout
+2024-10-12 10:20:05,719 INFO    MainThread:10032 [wandb_init.py:init():781] starting run threads in backend
+2024-10-12 10:20:09,867 WARNING MainThread:10032 [wandb_init.py:init():1169] interrupted
+Traceback (most recent call last):
+  File "/data/zyl/anaconda3/envs/wsi/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1147, in init
+    run = wi.init()
+  File "/data/zyl/anaconda3/envs/wsi/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 792, in init
+    run_start_result = run_start_handle.wait(timeout=30)
+  File "/data/zyl/anaconda3/envs/wsi/lib/python3.10/site-packages/wandb/sdk/lib/mailbox.py", line 283, in wait
+    found, abandoned = self._slot._get_and_clear(timeout=wait_timeout)
+  File "/data/zyl/anaconda3/envs/wsi/lib/python3.10/site-packages/wandb/sdk/lib/mailbox.py", line 130, in _get_and_clear
+    if self._wait(timeout=timeout):
+  File "/data/zyl/anaconda3/envs/wsi/lib/python3.10/site-packages/wandb/sdk/lib/mailbox.py", line 126, in _wait
+    return self._event.wait(timeout=timeout)
+  File "/data/zyl/anaconda3/envs/wsi/lib/python3.10/threading.py", line 607, in wait
+    signaled = self._cond.wait(timeout)
+  File "/data/zyl/anaconda3/envs/wsi/lib/python3.10/threading.py", line 324, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt

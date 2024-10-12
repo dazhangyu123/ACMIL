@@ -7,7 +7,7 @@ import argparse
 from utils.utils import save_model, Struct, set_seed, Wandb_Writer
 import h5py
 import time
-from architecture.transformer import AttnMIL6 as AttnMIL
+from architecture.transformer import ACMIL_GA
 from architecture.clam import CLAM_SB, CLAM_MB
 from architecture.transMIL import TransMIL
 import torch
@@ -16,7 +16,7 @@ import sys
 
 def get_arguments():
     parser = argparse.ArgumentParser('Heatmap visualization', add_help=False)
-    parser.add_argument('--config', dest='config', default='config/camelyon_medical_ssl_config.yml',
+    parser.add_argument('--config', dest='config', default='config/camelyon_config.yml',
                         help='settings of dataset in yaml format')
     parser.add_argument('--data_slide_dir', type=str, default='/mnt/Xsky/zyl/dataset/CAMELYON16/training')
     parser.add_argument('--slide_ext', type=str, default='.tif')
@@ -70,7 +70,7 @@ def main():
     if conf.arch == 'transmil':
         net = TransMIL(conf)
     elif conf.arch == 'ga':
-        net = AttnMIL(conf)
+        net = ACMIL_GA(conf)
     elif conf.arch == 'clam_sb':
         net = CLAM_SB(conf, dropout=True)
     elif conf.arch == 'clam_mb':
