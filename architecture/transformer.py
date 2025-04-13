@@ -167,9 +167,9 @@ class MutiHeadAttention(nn.Module):
             n_masked_patch = min(self.n_masked_patch, c)
             _, indices = torch.topk(attn, n_masked_patch, dim=-1)
             indices = indices.reshape(b * h * q, -1)
-            rand_selected = torch.argsort(torch.rand(*indices.shape), dim=-1)[:,:int(n_masked_patch * self.mask_drop)]
+            rand_selected = torch.argsort(torch.rand(*indices.shape,device=attn.device), dim=-1)[:,:int(n_masked_patch * self.mask_drop)]
             masked_indices = indices[torch.arange(indices.shape[0]).unsqueeze(-1), rand_selected]
-            random_mask = torch.ones(b*h*q, c).to(attn.device)
+            random_mask = torch.ones(b*h*q, c,device=attn.device)
             random_mask.scatter_(-1, masked_indices, 0)
             attn = attn.masked_fill(random_mask.reshape(b, h, q, -1) == 0, -1e9)
 
@@ -313,9 +313,9 @@ class ACMIL_GA(nn.Module):
             k, n = A.shape
             n_masked_patch = min(self.n_masked_patch, n)
             _, indices = torch.topk(A, n_masked_patch, dim=-1)
-            rand_selected = torch.argsort(torch.rand(*indices.shape), dim=-1)[:,:int(n_masked_patch * self.mask_drop)]
+            rand_selected = torch.argsort(torch.rand(*indices.shape,device=A.device), dim=-1)[:,:int(n_masked_patch * self.mask_drop)]
             masked_indices = indices[torch.arange(indices.shape[0]).unsqueeze(-1), rand_selected]
-            random_mask = torch.ones(k, n).to(A.device)
+            random_mask = torch.ones(k, n,device=A.device)
             random_mask.scatter_(-1, masked_indices, 0)
             A = A.masked_fill(random_mask == 0, -1e9)
 
@@ -340,9 +340,9 @@ class ACMIL_GA(nn.Module):
             k, n = A.shape
             n_masked_patch = min(self.n_masked_patch, n)
             _, indices = torch.topk(A, n_masked_patch, dim=-1)
-            rand_selected = torch.argsort(torch.rand(*indices.shape), dim=-1)[:,:int(n_masked_patch * self.mask_drop)]
+            rand_selected = torch.argsort(torch.rand(*indices.shape,device=A.device), dim=-1)[:,:int(n_masked_patch * self.mask_drop)]
             masked_indices = indices[torch.arange(indices.shape[0]).unsqueeze(-1), rand_selected]
-            random_mask = torch.ones(k, n).to(A.device)
+            random_mask = torch.ones(k, n,device=A.device)
             random_mask.scatter_(-1, masked_indices, 0)
             A = A.masked_fill(random_mask == 0, -1e9)
 
